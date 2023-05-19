@@ -147,11 +147,25 @@ void PictureJoiner::updateColNum(QString num) {
 }
 
 void PictureJoiner::updateHorizontalText(QString text) {
+  foreach (QGraphicsItem *item, scene->items()) {
+    // 如果是 QGraphicsTextItem 类型的项，就将其从场景中移除
+    if (item->type() == QGraphicsTextItem::Type) {
+      scene->removeItem(item);
+      delete item;
+    }
+  }
   horizontalText = text;
   updateText();
 }
 
 void PictureJoiner::updateVerticalText(QString text) {
+  foreach (QGraphicsItem *item, scene->items()) {
+    // 如果是 QGraphicsTextItem 类型的项，就将其从场景中移除
+    if (item->type() == QGraphicsTextItem::Type) {
+      scene->removeItem(item);
+      delete item;
+    }
+  }
   verticalText = text;
   updateText();
 }
@@ -186,6 +200,8 @@ void PictureJoiner::updateText() {
                      centerLeft.y() - textRect.width() / 2);
     scene->addItem(textItem);
   }
+  ui->graphicsView->update();
+  this->update();
 }
 
 void PictureJoiner::resetAll() noexcept {
